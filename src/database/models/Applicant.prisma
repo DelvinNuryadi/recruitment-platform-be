@@ -1,0 +1,17 @@
+model Applicant {
+  id          String   @id @default(uuid())
+  positionId  String
+  fullName    String
+  email       String
+  phone       String
+  education   String
+  experience  Int
+  resumeUrl   String
+  status      ApplicantStatus
+  notes       String? 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  position    Position @relation(fields: [positionId], references: [id])
+}
+

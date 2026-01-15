@@ -1,0 +1,18 @@
+enum Role {
+  ADMIN
+  RECRUITER
+}
+
+enum PositionType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+enum ApplicantStatus {
+  APPLIED
+  REVIEWED
+  INTERVIEW
+  ACCEPTED
+  REJECTED
+}
