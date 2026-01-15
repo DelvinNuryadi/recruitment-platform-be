@@ -1,15 +1,5 @@
 import { RegisterAdminAndCompanyBodyRequest } from "@/types/auth.type";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-export const findUserByEmail = async (email: string) => {
-    return await prisma.user.findUnique({
-        where: {
-            email,
-        },
-    });
-};
+import { prisma } from "../lib/prisma";
 
 export const registerUserAndCompany = async (
     data: RegisterAdminAndCompanyBodyRequest
@@ -23,6 +13,11 @@ export const registerUserAndCompany = async (
                 email,
                 phone,
             },
+            select: {
+                id: true,
+                name: true,
+                phone: true,
+            },
         });
 
         const user = await tx.user.create({
@@ -33,8 +28,12 @@ export const registerUserAndCompany = async (
                 role: "ADMIN",
                 companyId: company.id,
             },
+            select: {
+                id: true,
+                fullName: true,
+            },
         });
 
-        return { company, user };
+        return { ...company, ...user };
     });
 };

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import z, { ZodIssue } from "zod";
+import z from "zod";
 import { StatusCodes } from "http-status-codes";
 import { ERROR_MESSAGES, REQUEST_STATUSES } from "@/constants";
 
@@ -9,21 +9,27 @@ export function errorHandler(
     res: Response,
     next: NextFunction
 ) {
-    // handle validation error
     if (err instanceof z.ZodError) {
         return res.status(StatusCodes.BAD_REQUEST).json({
             status: REQUEST_STATUSES.FAIL,
             message: ERROR_MESSAGES.VALIDATION_ERROR,
-            errors: err.issues.map((issue: ZodIssue) => ({
+            errors: err.issues.map((issue) => ({
                 path: issue.path.join("."),
                 message: issue.message,
                 code: issue.code,
             })),
         });
     }
+
+    if (err.statusCode) {
+        return res.status(err.statusCode).json({
+            status: REQUEST_STATUSES.FAIL,
+            message: err.message,
+        });
+    }
+
     return res.status(500).json({
         success: false,
-        message: "Something when wrong",
-        error: err.message,
+        message: err.message,
     });
 }

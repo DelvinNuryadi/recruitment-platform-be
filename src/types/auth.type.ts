@@ -5,3 +5,12 @@ export type RegisterAdminAndCompanyBodyRequest = {
     fullName: string;
     phone: string;
 };
+
+export type LoginBodyRequest = {
+    email: string;
+    password: string;
+};
+
+export type AuthRequest = {
+    id: string;
+};
