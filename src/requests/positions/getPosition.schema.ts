@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const getUserSchema = z.object({
+export const getPositionSchema = z.object({
     params: z.object({
         id: z.uuid({ error: "invalid format uuid" }),
     }),

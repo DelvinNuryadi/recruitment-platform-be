@@ -1,5 +1,5 @@
 import {
-    GetMeRequest,
+    AuthRequest,
     LoginBodyRequest,
     RegisterAdminAndCompanyBodyRequest,
 } from "@/types/auth.type";
@@ -56,7 +56,7 @@ export const getMe = async (
     next: NextFunction
 ) => {
     try {
-        const data = req.user as GetMeRequest;
+        const data = req.user as AuthRequest;
         const result = await authService.getMe(data);
         return res.json({
             message: "profile retrieved",
