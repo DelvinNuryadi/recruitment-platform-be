@@ -57,3 +57,59 @@ export const getPosition = async (userId: string, positionId: string) => {
     }
     return result;
 };
+
+export const updatePosition = async (
+    userId: string,
+    positionId: string,
+    data: createPositionBodyRequest
+) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+
+    const result = await positionRepository.update(
+        positionId,
+        user.company.id,
+        data
+    );
+    if (!result) {
+        throw new HttpError(
+            "failed to update position",
+            StatusCodes.INTERNAL_SERVER_ERROR
+        );
+    }
+    return result;
+};
+
+export const deletePosition = async (userId: string, positionId: string) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+
+    const result = await positionRepository.deletePosition(
+        positionId,
+        user.company.id
+    );
+    if (!result) {
+        throw new HttpError(
+            "failed to delete position",
+            StatusCodes.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    return result;
+};

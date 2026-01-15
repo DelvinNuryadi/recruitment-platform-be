@@ -26,6 +26,7 @@ export type getDetailPositionResponse = {
     type: PositionType;
     salary: string;
     isActive: boolean;
+    location: string;
     company: {
         id: string;
         name: string;
@@ -34,4 +35,26 @@ export type getDetailPositionResponse = {
         id: string;
         fullName: string;
     };
+};
+
+export type updatePositionBodyRequest = createPositionBodyRequest;
+
+export type updatePositionResponse = {
+    id: string;
+    title: string;
+    location: string;
+    type: PositionType;
+    description: string;
+    salary: string;
+    isActive: boolean;
+    companyId: string;
+    creator: {
+        fullName: string;
+    };
+};
+
+export type deletePositionResponse = {
+    id: string;
+    title: string;
+    description: string;
 };

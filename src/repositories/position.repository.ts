@@ -1,23 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import {
     createPositionBodyRequest,
+    deletePositionResponse,
     getAllPositionResponse,
     getDetailPositionResponse,
+    updatePositionBodyRequest,
+    updatePositionResponse,
 } from "@/types/position.type";
+import { string } from "zod";
 
 export const create = async (data: createPositionBodyRequest) => {
-    const { title, location, type, description, salary, companyId, createdBy } =
-        data;
     return await prisma.position.create({
-        data: {
-            title,
-            location,
-            type,
-            description,
-            salary,
-            companyId,
-            createdBy,
-        },
+        data,
         select: {
             id: true,
             location: true,
@@ -63,6 +57,7 @@ export const getPosition = async (
             description: true,
             type: true,
             salary: true,
+            location: true,
             isActive: true,
             company: {
                 select: {
@@ -83,10 +78,39 @@ export const getPosition = async (
 export const update = async (
     positionId: string,
     companyId: string,
-    data: createPositionBodyRequest
-) => {
+    data: updatePositionBodyRequest
+): Promise<updatePositionResponse> => {
     return await prisma.position.update({
         where: { id: positionId, companyId },
         data,
+        select: {
+            id: true,
+            location: true,
+            type: true,
+            title: true,
+            description: true,
+            salary: true,
+            isActive: true,
+            companyId: true,
+            creator: {
+                select: {
+                    fullName: true,
+                },
+            },
+        },
+    });
+};
+
+export const deletePosition = async (
+    positionId: string,
+    companyId: string
+): Promise<deletePositionResponse> => {
+    return await prisma.position.delete({
+        where: { id: positionId, companyId },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+        },
     });
 };

@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as positionService from "../services/position.service";
 import { AuthRequest } from "@/types/auth.type";
+import { Prisma } from "generated/prisma/client";
+import { HttpError } from "@/lib/http-error";
 
 export const createPosition = async (
     req: Request,
@@ -62,11 +64,34 @@ export const updatePosition = async (
     next: NextFunction
 ) => {
     try {
-        // const { id: positionId } = res.locals.parsed.params;
-        // const { id: userId } = req.user as AuthRequest;
+        const { id: positionId } = res.locals.parsed.params;
+        const data = res.locals.parsed.body;
+        const { id: userId } = req.user as AuthRequest;
+        const result = await positionService.updatePosition(
+            userId,
+            positionId,
+            data
+        );
         return res
             .status(StatusCodes.OK)
-            .json({ message: "update position successfully" });
+            .json({ message: "update position successfully", data: result });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deletePosition = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id: positionId } = res.locals.parsed.params;
+        const { id: userId } = req.user as AuthRequest;
+        const result = await positionService.deletePosition(userId, positionId);
+        return res
+            .status(StatusCodes.OK)
+            .json({ message: "delete position successfully", data: result });
     } catch (error) {
         next(error);
     }
