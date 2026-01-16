@@ -13,6 +13,7 @@ export const create = async (data: createPositionBodyRequest) => {
         data,
         select: {
             id: true,
+            title: true,
             location: true,
             type: true,
             description: true,
@@ -30,7 +31,7 @@ export const create = async (data: createPositionBodyRequest) => {
 
 export const getAllPositions = async (
     id: string
-): Promise<getAllPositionResponse[]> => {
+): Promise<getAllPositionResponse[] | []> => {
     return await prisma.position.findMany({
         where: { companyId: id },
         select: {

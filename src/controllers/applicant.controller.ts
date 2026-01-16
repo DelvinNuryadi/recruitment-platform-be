@@ -40,3 +40,79 @@ export const getAllApplicants = async (
         next(error);
     }
 };
+
+export const getApplicantDetail = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id } = res.locals.parsed.params;
+        const result = await applicantService.getApplicantsDetail(id);
+        return res.status(StatusCodes.OK).json({
+            message: "retrived applicant successfully",
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateApplicantUpdateStatus = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id: applicantId } = res.locals.parsed.params;
+        const { status } = res.locals.parsed.body;
+        const result = await applicantService.updateApplicantStatus(
+            applicantId,
+            status
+        );
+        return res.status(StatusCodes.OK).json({
+            message: "update status successfully",
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const updateApplicantUpdateNotes = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id: applicantId } = res.locals.parsed.params;
+        const { notes } = res.locals.parsed.body;
+        const result = await applicantService.updateApplicantNotes(
+            applicantId,
+            notes
+        );
+        return res.status(StatusCodes.OK).json({
+            message: "update notes successfully",
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteApplicant = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { id } = res.locals.parsed.params;
+        const result = await applicantService.deleteApplicant(id);
+        return res.status(StatusCodes.OK).json({
+            message: "delete applicant successfully",
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+};

@@ -40,6 +40,9 @@ export const getAllPositions = async (id: string) => {
         throw new HttpError("user not found", StatusCodes.CONFLICT);
     }
     const result = await positionRepository.getAllPositions(user.company.id);
+    if (result.length === 0) {
+        throw new HttpError("position not found", StatusCodes.NOT_FOUND);
+    }
     return result;
 };
 
