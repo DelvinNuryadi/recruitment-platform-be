@@ -3,8 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import * as positionService from "../services/position.service";
 import { AuthRequest } from "@/types/auth.type";
-import { Prisma } from "generated/prisma/client";
-import { HttpError } from "@/lib/http-error";
 
 export const createPosition = async (
     req: Request,

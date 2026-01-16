@@ -7,7 +7,6 @@ import {
     updatePositionBodyRequest,
     updatePositionResponse,
 } from "@/types/position.type";
-import { string } from "zod";
 
 export const create = async (data: createPositionBodyRequest) => {
     return await prisma.position.create({

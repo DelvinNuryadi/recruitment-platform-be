@@ -67,7 +67,7 @@ model Applicant {
   education  String
   experience Int
   resumeUrl  String
-  status     ApplicantStatus
+  status     ApplicantStatus @default(APPLIED)
   notes      String?
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
