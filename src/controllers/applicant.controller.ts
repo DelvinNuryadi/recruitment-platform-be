@@ -28,7 +28,6 @@ export const getAllApplicants = async (
     try {
         const { positionId } = res.locals.parsed.query;
         const { id: userId } = req.user as AuthRequest;
-        console.log("isi position id:", res.locals.parsed);
         const result = await applicantService.getAllApplicants(
             userId,
             positionId
