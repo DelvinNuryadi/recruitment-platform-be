@@ -4,12 +4,14 @@ import * as userController from "@/controllers/user.controller";
 import express from "express";
 import { authMiddleware } from "@/middlewares/auth.middleware";
 import { getUserSchema } from "@/requests/userRequests.ts/getUser.schema";
+import { requireAdmin } from "@/middlewares/role.middleware";
 
 const router = express.Router();
 
 router.post(
     "/",
     authMiddleware,
+    requireAdmin,
     validateRequest(registerUserSchema),
     userController.create
 );

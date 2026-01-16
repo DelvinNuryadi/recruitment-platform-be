@@ -33,8 +33,25 @@ export const getAllApplicants = async (userId: string, positionId: string) => {
     return result;
 };
 
-export const getApplicantsDetail = async (applicantId: string) => {
-    const result = await applicantRepository.getApplicantDetail(applicantId);
+export const getApplicantsDetail = async (
+    userId: string,
+    applicantId: string
+) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+    const companyId = user.company.id;
+    const result = await applicantRepository.getApplicantDetail(
+        companyId,
+        applicantId
+    );
     if (!result) {
         throw new HttpError("applicant not found", StatusCodes.NOT_FOUND);
     }
@@ -42,10 +59,23 @@ export const getApplicantsDetail = async (applicantId: string) => {
 };
 
 export const updateApplicantStatus = async (
+    userId: string,
     applicantId: string,
     status: ApplicantStatus
 ) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+    const companyId = user.company.id;
     const result = await applicantRepository.updateApplicantStatus(
+        companyId,
         applicantId,
         status
     );
@@ -53,10 +83,23 @@ export const updateApplicantStatus = async (
     return result;
 };
 export const updateApplicantNotes = async (
+    userId: string,
     applicantId: string,
     notes: string
 ) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+    const companyId = user.company.id;
     const result = await applicantRepository.updateApplicantNotes(
+        companyId,
         applicantId,
         notes
     );
@@ -64,7 +107,22 @@ export const updateApplicantNotes = async (
     return result;
 };
 
-export const deleteApplicant = async (applicantId: string) => {
-    const result = await applicantRepository.deleteApplicant(applicantId);
+export const deleteApplicant = async (userId: string, applicantId: string) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new HttpError("user not found", StatusCodes.CONFLICT);
+    }
+    if (!user.company) {
+        throw new HttpError(
+            "user has no company assigned",
+            StatusCodes.CONFLICT
+        );
+    }
+    const companyId = user.company.id;
+    const result = await applicantRepository.deleteApplicant(
+        companyId,
+        applicantId
+    );
+
     return result;
 };

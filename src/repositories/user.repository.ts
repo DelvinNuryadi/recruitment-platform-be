@@ -11,6 +11,13 @@ export const findUserByEmail = async (email: string) => {
         where: {
             email,
         },
+        select: {
+            id: true,
+            email: true,
+            role: true,
+            companyId: true,
+            password: true,
+        },
     });
 };
 export const findUserById = async (id: string) => {

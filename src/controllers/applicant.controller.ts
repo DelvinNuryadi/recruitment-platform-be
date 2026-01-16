@@ -47,8 +47,12 @@ export const getApplicantDetail = async (
     next: NextFunction
 ) => {
     try {
-        const { id } = res.locals.parsed.params;
-        const result = await applicantService.getApplicantsDetail(id);
+        const { id: applicantId } = res.locals.parsed.params;
+        const { id: userId } = req.user as AuthRequest;
+        const result = await applicantService.getApplicantsDetail(
+            userId,
+            applicantId
+        );
         return res.status(StatusCodes.OK).json({
             message: "retrived applicant successfully",
             data: result,
@@ -65,8 +69,10 @@ export const updateApplicantUpdateStatus = async (
 ) => {
     try {
         const { id: applicantId } = res.locals.parsed.params;
+        const { id: userId } = req.user as AuthRequest;
         const { status } = res.locals.parsed.body;
         const result = await applicantService.updateApplicantStatus(
+            userId,
             applicantId,
             status
         );
@@ -85,9 +91,11 @@ export const updateApplicantUpdateNotes = async (
     next: NextFunction
 ) => {
     try {
+        const { id: userId } = req.user as AuthRequest;
         const { id: applicantId } = res.locals.parsed.params;
         const { notes } = res.locals.parsed.body;
         const result = await applicantService.updateApplicantNotes(
+            userId,
             applicantId,
             notes
         );
@@ -106,8 +114,12 @@ export const deleteApplicant = async (
     next: NextFunction
 ) => {
     try {
-        const { id } = res.locals.parsed.params;
-        const result = await applicantService.deleteApplicant(id);
+        const { id: applicantId } = res.locals.parsed.params;
+        const { id: userId } = req.user as AuthRequest;
+        const result = await applicantService.deleteApplicant(
+            userId,
+            applicantId
+        );
         return res.status(StatusCodes.OK).json({
             message: "delete applicant successfully",
             data: result,

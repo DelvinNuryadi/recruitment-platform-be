@@ -49,14 +49,14 @@ export const login = async (data: LoginBodyRequest) => {
     }
 
     const accessToken = jwt.sign(
-        { id: user.id, email: data.email },
+        { id: user.id, email: data.email, role: user.role },
         process.env.ACCESS_TOKEN_SECRET!,
         {
             expiresIn: "1d",
         }
     );
-
-    return { token: accessToken, userId: user.id };
+    const { password: _password, ...safeUser } = user;
+    return { token: accessToken, user: safeUser };
 };
 
 export const getMe = async (data: AuthRequest) => {

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { HttpError } from "@/lib/http-error";
 import { StatusCodes } from "http-status-codes";
+import { JwtUserPayload } from "@/types/jwt.type";
 
 export const authMiddleware = (
     req: Request,
@@ -20,7 +21,7 @@ export const authMiddleware = (
             process.env.ACCESS_TOKEN_SECRET as string
         );
 
-        req.user = decoded; // attach user info to request
+        req.user = decoded as JwtUserPayload; // attach user info to request
         next();
     } catch (err) {
         throw new HttpError("Invalid token", StatusCodes.UNAUTHORIZED);
