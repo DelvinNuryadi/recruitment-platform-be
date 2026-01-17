@@ -1,0 +1,31 @@
+services:
+    app:
+        container_name: recruitment-app
+        image: recruitment-dev
+        build:
+            context: .
+        ports:
+            - "8000:8000"
+        env_file:
+            - .env
+        volumes:
+            - .:/app
+            - /app/node_modules
+        depends_on:
+            - postgres
+        command: npm run dev
+
+    postgres:
+        container_name: recruitment-db
+        image: postgres:16-alpine
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: recruitment-db
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+volumes:
+    pgdata:
