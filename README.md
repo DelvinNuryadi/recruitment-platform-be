@@ -28,18 +28,27 @@ This platform is designed to be sold to companies to manage their recruitment pr
 
 ## 📦 Requirements
 
-- **Node.js**: `>= 20.x` (recommended)
+- **Node.js**: `>= 20.x`
 
     > Project currently tested on **Node 24.11.1**, but Node 20+ is safer and more stable for production.
 
 - **PostgreSQL**: `>= 16`
+
+    > Make sure PostgreSQL is installed and a database is created.
+
 - **npm** or Docker
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in the root directory:
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Example:
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/recruitment-db
@@ -54,13 +63,35 @@ PORT=8000
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/DelvinNuryadi/recruitment-platform-be.git
 cd recruitment-platform
 ```
 
 ---
 
-### 2️⃣ Install Dependencies
+### 2️⃣ Copy `.env`
+
+```bash
+cp .env.example .env
+```
+
+---
+
+### 3️⃣ PostgreSQL Setup
+
+Make sure PostgreSQL is running and a database is created.
+
+Example:
+
+```bash
+createdb recruitment-db
+```
+
+Update `.env` if needed.
+
+---
+
+### 4️⃣ Install Dependencies
 
 ```bash
 npm install
@@ -68,14 +99,28 @@ npm install
 
 ---
 
-### 3️⃣ Prisma Setup
+Got it. So we need to make the **Prisma setup section explicitly mention that the DB connection must be working first**.
+
+Here’s the updated version of that part, with a clear statement that Prisma commands should only run after the DB is connected.
+
+---
+
+### 5️⃣ Prisma Setup (Make sure DB is connected)
+
+Before running Prisma commands, make sure:
+
+- PostgreSQL is running
+- Database is created
+- `.env` has the correct `DATABASE_URL`
+
+Then run:
 
 ```bash
 npm run db:generate
 npm run db:migrate
 ```
 
-Optional (reset & seed):
+Optional:
 
 ```bash
 npm run db:reset
@@ -113,29 +158,6 @@ Or using Makefile:
 ```bash
 make up
 ```
-
----
-
-## 🐳 Docker Overview
-
-### Dockerfile
-
-- Base image: `node:20-alpine`
-- Working directory: `/app`
-- Runs Prisma generate + dev server
-
-### Docker Compose Services
-
-- **app** → Node.js API
-- **postgres** → PostgreSQL 16
-
----
-
-## 🔐 Authentication Flow
-
-- Uses **JWT stored in HttpOnly Cookie**
-- Auth middleware protects secured routes
-- Role-based access control (RBAC) for Admin & Recruiter
 
 ---
 
@@ -218,3 +240,5 @@ npm run db:studio     # Prisma Studio
 ---
 
 © 2026 @delvinnr
+
+---
