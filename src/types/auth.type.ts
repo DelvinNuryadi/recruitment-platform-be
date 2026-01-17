@@ -14,3 +14,19 @@ export type LoginBodyRequest = {
 export type AuthRequest = {
     id: string;
 };
+
+export type CompanyRegisterResponse = {
+    id: string;
+    name: string;
+    phone: string;
+};
+
+export type AdminRegisterResponse = {
+    id: string;
+    fullName: string;
+};
+
+export type RegisterAdminCompanyRegisterResponse = {
+    company: CompanyRegisterResponse;
+    admin: AdminRegisterResponse;
+};

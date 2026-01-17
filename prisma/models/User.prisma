@@ -1,0 +1,13 @@
+model User {
+  id        String   @id @default(uuid())
+  companyId String
+  email     String   @unique
+  password  String
+  fullName  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company   Company    @relation(fields: [companyId], references: [id])
+  positions Position[] @relation("CreatedBy")
+}

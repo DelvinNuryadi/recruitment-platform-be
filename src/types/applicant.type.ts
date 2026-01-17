@@ -16,6 +16,7 @@ export type getAllApplicantResponse = {
     email: string;
     phone: string;
     status: ApplicantStatus;
+    createdAt: Date;
 };
 
 export type getApplicantDetailResponse = {

@@ -8,7 +8,7 @@ export function errorHandler(
     err: any,
     _req: Request,
     res: Response,
-    _next: NextFunction
+    _next: NextFunction,
 ) {
     if (err instanceof z.ZodError) {
         return res.status(StatusCodes.BAD_REQUEST).json({

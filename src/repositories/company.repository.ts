@@ -1,5 +1,42 @@
-import { prisma } from "@/lib/prisma";
+import {
+    RegisterAdminAndCompanyBodyRequest,
+    RegisterAdminCompanyRegisterResponse,
+} from "@/types/auth.type";
+import { prisma } from "../lib/prisma";
 
-export const findCompanyById = async (id: string) => {
-    return await prisma.company.findUnique({ where: { id } });
+export const registerUserAndCompany = async (
+    data: RegisterAdminAndCompanyBodyRequest
+): Promise<RegisterAdminCompanyRegisterResponse> => {
+    const { fullName, companyName, email, password, phone } = data;
+
+    return prisma.$transaction(async (tx) => {
+        const company = await tx.company.create({
+            data: {
+                name: companyName,
+                email,
+                phone,
+            },
+            select: {
+                id: true,
+                name: true,
+                phone: true,
+            },
+        });
+
+        const user = await tx.user.create({
+            data: {
+                fullName,
+                email,
+                password,
+                role: "ADMIN",
+                companyId: company.id,
+            },
+            select: {
+                id: true,
+                fullName: true,
+            },
+        });
+
+        return { company, admin: user };
+    });
 };

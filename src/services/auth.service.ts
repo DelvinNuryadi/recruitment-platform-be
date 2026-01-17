@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import * as authRepository from "../repositories/auth.repository";
+import * as companyRepository from "../repositories/company.repository";
 import * as userRepository from "../repositories/user.repository";
 import {
     AuthRequest,
@@ -20,7 +20,7 @@ export const registerUserAndCompany = async (
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 12);
-    const result = await authRepository.registerUserAndCompany({
+    const result = await companyRepository.registerUserAndCompany({
         ...data,
         password: hashedPassword,
     });

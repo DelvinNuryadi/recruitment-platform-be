@@ -14,7 +14,7 @@ export const create = async (data: createApplicantBodyRequest) => {
 
 export const getAllApplicants = async (
     companyId: string,
-    positionId?: string
+    positionId?: string,
 ): Promise<getAllApplicantResponse[]> => {
     const whereClause: Prisma.ApplicantWhereInput = {
         position: {
@@ -33,13 +33,14 @@ export const getAllApplicants = async (
             fullName: true,
             phone: true,
             status: true,
+            createdAt: true,
         },
     });
 };
 
 export const getApplicantDetail = async (
     companyId: string,
-    applicantId: string
+    applicantId: string,
 ): Promise<getApplicantDetailResponse | null> => {
     return await prisma.applicant.findUnique({
         where: {
@@ -54,7 +55,7 @@ export const getApplicantDetail = async (
 export const updateApplicantStatus = async (
     companyId: string,
     applicantId: string,
-    status: ApplicantStatus
+    status: ApplicantStatus,
 ) => {
     return await prisma.applicant.update({
         where: {
@@ -74,7 +75,7 @@ export const updateApplicantStatus = async (
 export const updateApplicantNotes = async (
     companyId: string,
     applicantId: string,
-    notes: string
+    notes: string,
 ) => {
     return await prisma.applicant.update({
         where: { id: applicantId, position: { companyId } },
@@ -89,7 +90,7 @@ export const updateApplicantNotes = async (
 
 export const deleteApplicant = async (
     companyId: string,
-    applicantId: string
+    applicantId: string,
 ) => {
     return await prisma.applicant.delete({
         where: { id: applicantId, position: { companyId } },
