@@ -4,11 +4,9 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 RUN npm install
+
 COPY . .
-RUN npx prisma generate
 
 EXPOSE 8000
 
-
-CMD ["npm", "run", "dev"]
-
+CMD ["sh", "-c", "npm run db:generate && npm run dev"]
