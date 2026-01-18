@@ -52,7 +52,7 @@ cp .env.example .env
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/recruitment-db
-JWT_SECRET=your_jwt_secret
+ACCESS_TOKEN_SECRET=your_jwt_secret
 PORT=8000
 ```
 
@@ -60,7 +60,7 @@ PORT=8000
 
 ```env
 DATABASE_URL=postgresql://user:password@postgres:5432/recruitment-db
-JWT_SECRET=your_jwt_secret
+ACCESS_TOKEN_SECRET=your_jwt_secret
 PORT=8000
 ```
 
