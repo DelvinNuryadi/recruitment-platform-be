@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "npm run db:generate && npm run dev"]
+CMD ["npm", "run", "dev"]

@@ -13,7 +13,7 @@ services:
             - /app/node_modules
         depends_on:
             - postgres
-        command: npm run dev
+        command: sh -c "npm run db:generate && npm run dev"
 
     postgres:
         container_name: recruitment-db
