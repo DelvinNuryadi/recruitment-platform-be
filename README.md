@@ -36,7 +36,7 @@ This platform is designed to be sold to companies to manage their recruitment pr
 
     > Make sure PostgreSQL is installed and a database is created.
 
-- **npm** or Docker
+- **npm** or **Docker**
 
 ---
 
@@ -48,13 +48,23 @@ Copy `.env.example` to `.env`:
 cp .env.example .env
 ```
 
-Example:
+### Example (Local Development – without Docker)
 
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/recruitment-db
 JWT_SECRET=your_jwt_secret
 PORT=8000
 ```
+
+### Example (Docker Compose)
+
+```env
+DATABASE_URL=postgresql://user:password@postgres:5432/recruitment-db
+JWT_SECRET=your_jwt_secret
+PORT=8000
+```
+
+> **Note**: When using Docker Compose, `postgres` is the **service name**, not `localhost`.
 
 ---
 
@@ -96,12 +106,6 @@ Update `.env` if needed.
 ```bash
 npm install
 ```
-
----
-
-Got it. So we need to make the **Prisma setup section explicitly mention that the DB connection must be working first**.
-
-Here’s the updated version of that part, with a clear statement that Prisma commands should only run after the DB is connected.
 
 ---
 
@@ -240,5 +244,3 @@ npm run db:studio     # Prisma Studio
 ---
 
 © 2026 @delvinnr
-
----
